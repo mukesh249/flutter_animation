@@ -2,7 +2,12 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animation/common/size_config.dart';
 import 'package:flutter_animation/first_demo.dart';
+import 'package:flutter_animation/ui/animate_list/animate_list.dart';
+import 'package:flutter_animation/ui/bottom_navigation/bottom_nav_a.dart';
+import 'package:flutter_animation/ui/custom_paints/demo_custom_shape.dart';
+import 'package:flutter_animation/ui/furniture/pages/furniture_home.dart';
 import 'package:flutter_animation/ui/logitech/page/logitech_home_page.dart';
 import 'package:flutter_animation/ui/sofa_set/page/sofa_set_page.dart';
 import 'package:flutter_animation/ui/weather/weather_page.dart';
@@ -175,6 +180,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppSizes().initSizes(context);
     return GetMaterialApp(
       themeMode: ThemeMode.system,
       darkTheme: ThemeData(
@@ -187,7 +193,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  FirstDemo(),
+      home:   DemoCustomShape(),
+      //home:   FurnitureHome(),
+      //home:   AnimateList(),
+      //home:  BottomNavA(),
+      //home:  FirstDemo(),
       //home: const WeatherPage(),
       //home:  LogitechHomePage(),
       //home:  SofaPage(),

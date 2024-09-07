@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animation/common/clipper.dart';
+import 'package:flutter_animation/common/size_config.dart';
+import 'package:flutter_animation/common/utils.dart';
 import 'package:flutter_animation/ui/weather/model/weather_model.dart';
 import 'package:flutter_animation/ui/weather/service/weather_service.dart';
 import 'package:flutter_animation/widgets/neo_button.dart';
@@ -69,13 +72,36 @@ class _WeatherPageState extends State<WeatherPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(weatherModel?.cityName ?? "Loading city...",
-                style: textStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                style: textStyle(fontSize: 40, fontWeight: FontWeight.bold).copyWith(color: Colors.yellow)),
             Text(weatherModel?.condition ?? "Loading city...",
-                style: textStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-            Lottie.asset(getWeatherAnimation(weatherModel?.condition.toLowerCase())),
-            Text("${weatherModel?.temperature.round()}°C", style: textStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+                style: textStyle(fontSize: 12, fontWeight: FontWeight.bold).copyWith(color: Colors.yellow)),
+            Stack(
+              children: [
+                ClipPath(
+                  clipper: MyCustomClipper(),
+                  child: Container(
+                    width: AppSizes.blockSizeHorizontal * 57,
+                    height: AppSizes.blockSizeVertical * 25,
+                    margin: const EdgeInsets.only(top: 80),
+                    /*  width: 50,
+                    height: 50,*/
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: gradient,
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter),
+                    ),
+                  ),
+                ),
+                Lottie.asset(
+                    getWeatherAnimation(weatherModel?.condition.toLowerCase())),
 
-            NeoButton()
+              ],
+            ),
+            Text("${weatherModel?.temperature.round()}°C",
+                style: textStyle(fontSize: 40, fontWeight: FontWeight.bold)),
+            NeoButton(),
+
           ],
         ),
       ),

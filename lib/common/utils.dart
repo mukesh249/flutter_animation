@@ -5,3 +5,9 @@ extension ColorUtils on Color {
     return Color.lerp(this, another, amount);
   }
 }
+
+final List<Color> gradient = [
+  Colors.yellow.withOpacity(0.7),
+  Colors.yellow.withOpacity(0.4),
+  Colors.transparent
+];
