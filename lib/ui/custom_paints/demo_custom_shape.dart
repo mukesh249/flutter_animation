@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'dart:ui' as ui;
 
 class DemoCustomShape extends StatelessWidget {
   DemoCustomShape({super.key});
@@ -12,20 +14,29 @@ class DemoCustomShape extends StatelessWidget {
       body: Container(
         padding: const EdgeInsets.only(top: 100),
         color: Colors.lime,
-        width: Get.width,
-        child: Column(
+        child: InkWell(
+          onTap: () {
+            isStroke.value = !isStroke.value;
+          },
+          child: Obx(
+            () => CustomPaint(
+              size: Size(Get.width, Get.height),
+              painter: CustomShapeCircle(
+                  isStroke.value ? PaintingStyle.stroke : PaintingStyle.fill),
+            ),
+          ),
+        ),
+        /* child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          spacing: 10,
           children: [
-            Container(
-              color: Colors.grey,
-              child: CustomPaint(
-                painter: CustomShapeLine(),
-                size: const Size(100, 2),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // Container(
+            //   color: Colors.grey,
+            //   child: CustomPaint(
+            //     painter: CustomShapeLine(),
+            //   ),
+            // ),
             InkWell(
               onTap: () {
                 isStroke.value = !isStroke.value;
@@ -35,14 +46,10 @@ class DemoCustomShape extends StatelessWidget {
                   painter: CustomShapeCircle(isStroke.value
                       ? PaintingStyle.stroke
                       : PaintingStyle.fill),
-                  size: const Size(100, 100),
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
+           */ /* GestureDetector(
               onTap: () {
                 isStroke.value = !isStroke.value;
               },
@@ -54,9 +61,6 @@ class DemoCustomShape extends StatelessWidget {
                   size: const Size(100, 100),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -74,7 +78,9 @@ class DemoCustomShape extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 20,),
+                const SizedBox(
+                  width: 20,
+                ),
                 InkWell(
                   onTap: () {
                     isStroke.value = !isStroke.value;
@@ -83,37 +89,48 @@ class DemoCustomShape extends StatelessWidget {
                     () => CustomPaint(
                       painter: CustomShapeOval(isStroke.value
                           ? PaintingStyle.stroke
-                          : PaintingStyle.fill),
+                          : PaintingStyle.stroke),
                       size: const Size(100, 100),
+                      child: Transform(
+                          alignment: Alignment.topLeft,
+                          transform: Matrix4.rotationZ(1.57),
+                          child: const Text(
+                            "Mukesh",
+                            style: TextStyle(
+                                fontSize: 25,
+                                height: .5,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blueGrey),
+                          )),
                     ),
                   ),
                 ),
               ],
-            ),
+            )*/ /*
           ],
-        ),
+        ),*/
       ),
     );
   }
 }
 
-class CustomShapeLine extends CustomPainter {
+/*class CustomShapeLine extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
     paint.strokeWidth = 2;
     paint.color = Colors.pink;
-    canvas.drawLine(const Offset(0, 0), Offset(size.width, 0), paint);
+    canvas.drawLine(const Offset(10, 0), Offset(0, 0), paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-}
+}*/
 
 class CustomShapeCircle extends CustomPainter {
-  var style;
+  PaintingStyle? style;
 
   CustomShapeCircle(PaintingStyle paintingStyle) {
     style = paintingStyle;
@@ -121,34 +138,43 @@ class CustomShapeCircle extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint();
-    paint.strokeWidth = 2;
-    paint.color = Colors.pink;
-    paint.style = style;
-    Offset offset = Offset(size.width / 2, size.height / 2);
-    canvas.drawCircle(offset, 50, paint);
-  }
+    final paint = Paint()
+      ..color = Colors.blue
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
 
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
-  }
-}
+    // Draw Circle
+    canvas.drawCircle(Offset(size.width/2, 100), 50, paint);
 
-class CustomShapeRect extends CustomPainter {
-  var style;
+    canvas.drawLine(const Offset(0, 0), Offset(size.width, 0), paint);
 
-  CustomShapeRect(PaintingStyle paintingStyle) {
-    style = paintingStyle;
-  }
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint();
-    paint.strokeWidth = 2;
-    paint.color = Colors.pink;
-    paint.style = style;
-    Offset center = Offset(size.width / 2, size.height / 2);
+    // Draw Triangle
+    paint.color = Colors.green;
+    paint.style = PaintingStyle.fill;
+    var path = Path();
+    path.moveTo(size.width * 0.5, size.height * 0.2);
+    path.lineTo(size.width * 0.2, size.height * 0.4);
+    path.lineTo(size.width * 0.75, size.height * 0.4);
+    path.close();
+    canvas.drawPath(path, paint);
+
+    // Draw Triangle
+    paint.color = Colors.red;
+    paint.style = PaintingStyle.stroke;
+    path.moveTo(size.width * 0.5, size.height * 0.2);
+    path.lineTo(size.width * 0.2, size.height * 0.4);
+    path.lineTo(size.width * 0.75, size.height * 0.4);
+    path.close();
+    canvas.drawPath(path, paint);
+
+    paint.color = Colors.green;
+    paint.style = PaintingStyle.stroke;
+    // Offset center = Offset(size.width / 2, size.height / 2);
+    Rect bigRect = const Rect.fromLTRB(10, 20, 100, 200);
+    Rect smallRect = const Rect.fromLTRB(20, 30, 100, 200);
+    RRect bigRRect = RRect.fromRectXY(bigRect, 70, 57);
+    RRect smallRRect = RRect.fromRectXY(smallRect, 70, 74);
 
     ///Draw Rectangle Using Rect
     /*canvas.drawRect(
@@ -156,7 +182,7 @@ class CustomShapeRect extends CustomPainter {
         paint);*/
 
     ///Draw Rectangle Using circle
-    canvas.drawRect(Rect.fromCircle(center: center, radius: 50), paint);
+    canvas.drawDRRect(bigRRect, smallRRect, paint);
 
     ///Draw Rectangle Using Offset
     // canvas.drawRect(Rect.fromPoints(Offset(size.width,size.height),const Offset(0,0)), paint);
@@ -167,6 +193,47 @@ class CustomShapeRect extends CustomPainter {
     return true;
   }
 }
+
+/*class CustomShapeRect extends CustomPainter {
+  PaintingStyle? style;
+
+  CustomShapeRect(PaintingStyle paintingStyle) {
+    style = paintingStyle;
+  }
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..strokeWidth = 2
+      ..color = Colors.pink
+      ..style = PaintingStyle.fill
+      ..shader = ui.Gradient.linear(
+          Offset(size.width / 2, 0),
+          Offset(size.width / 2, size.height),
+          [Colors.pink, Colors.amber, Colors.white]);
+    // Offset center = Offset(size.width / 2, size.height / 2);
+
+    ///Draw Rectangle Using Rect
+    */ /*canvas.drawRect(
+        Rect.fromCenter(center: center, width: size.width, height: size.height),
+        paint);*/ /*
+
+    canvas.clipRect(Offset.zero & size);
+    canvas.drawPaint(paint);
+
+    ///Draw Rectangle Using circle
+    // canvas.drawRect(Rect.fromCircle(center: center, radius: 50), paint);
+
+    ///Draw Rectangle Using Offset
+    // canvas.drawRect(Rect.fromPoints(Offset(size.width,size.height),const Offset(0,0)), paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}
+
 class CustomShapeOval extends CustomPainter {
   var style;
 
@@ -180,16 +247,19 @@ class CustomShapeOval extends CustomPainter {
     paint.strokeWidth = 2;
     paint.color = Colors.pink;
     paint.style = style;
-    Offset center = Offset(size.width / 2, size.height / 2);
-    Rect rect1 = const Rect.fromLTRB(0,0,100,200);
+    // Offset center = Offset(size.width / 2, size.height / 2);
+    Rect bigRect = const Rect.fromLTRB(10, 20, 100, 200);
+    Rect smallRect = const Rect.fromLTRB(20, 30, 100, 200);
+    RRect bigRRect = RRect.fromRectXY(bigRect, 70, 57);
+    RRect smallRRect = RRect.fromRectXY(smallRect, 70, 74);
 
     ///Draw Rectangle Using Rect
-    /*canvas.drawRect(
+    */ /*canvas.drawRect(
         Rect.fromCenter(center: center, width: size.width, height: size.height),
-        paint);*/
+        paint);*/ /*
 
     ///Draw Rectangle Using circle
-    canvas.drawOval(rect1, paint);
+    canvas.drawDRRect(bigRRect, smallRRect, paint);
 
     ///Draw Rectangle Using Offset
     // canvas.drawRect(Rect.fromPoints(Offset(size.width,size.height),const Offset(0,0)), paint);
@@ -199,4 +269,4 @@ class CustomShapeOval extends CustomPainter {
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
     return true;
   }
-}
+}*/

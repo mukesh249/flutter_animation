@@ -4,9 +4,15 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animation/common/size_config.dart';
 import 'package:flutter_animation/first_demo.dart';
+import 'package:flutter_animation/ui/animate_list/3_built_in_explicit_animation.dart';
+import 'package:flutter_animation/ui/animate_list/4_custom_explicit_animation_with_aw_and_ab.dart';
 import 'package:flutter_animation/ui/animate_list/animate_list.dart';
+import 'package:flutter_animation/ui/animate_list/2_custom_implicit_tween_animation.dart';
+import 'package:flutter_animation/ui/animate_list/1_implicit_animation.dart';
 import 'package:flutter_animation/ui/bottom_navigation/bottom_nav_a.dart';
+import 'package:flutter_animation/ui/canvas/canvas.dart';
 import 'package:flutter_animation/ui/custom_paints/demo_custom_shape.dart';
+import 'package:flutter_animation/ui/for_interview.dart';
 import 'package:flutter_animation/ui/furniture/pages/furniture_home.dart';
 import 'package:flutter_animation/ui/logitech/page/logitech_home_page.dart';
 import 'package:flutter_animation/ui/sofa_set/page/sofa_set_page.dart';
@@ -193,7 +199,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:   DemoCustomShape(),
+     //home:   DemoCustomShape(),
+      //home:   CanvasScreen(),
+     // home:   ImplicitAnimation(),
+     // home:   CustomImplicitTweenAnimation(),
+      //home:   BuiltInExplicitAnimation(),
+      home:   CustomExplicitAnimationWithAwAndAb(),
+      //home:   const InterView(),
       //home:   FurnitureHome(),
       //home:   AnimateList(),
       //home:  BottomNavA(),

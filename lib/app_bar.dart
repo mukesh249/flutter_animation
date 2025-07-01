@@ -5,6 +5,8 @@ class AppBarCustom extends StatelessWidget {
   Color color = Colors.deepPurple;
   AppBarCustom({super.key, required this.title,  required this.color });
 
+  
+
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder(
