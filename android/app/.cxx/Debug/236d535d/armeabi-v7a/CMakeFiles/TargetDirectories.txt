@@ -1,0 +1,2 @@
+/Users/mac/StudioProjects/flutter_animation/android/app/.cxx/Debug/236d535d/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/mac/StudioProjects/flutter_animation/android/app/.cxx/Debug/236d535d/armeabi-v7a/CMakeFiles/rebuild_cache.dir
